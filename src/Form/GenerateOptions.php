@@ -178,7 +178,7 @@ class GenerateOptions extends FormBase {
   protected function prepareOptions() {
     $headers = [];
     foreach($this->field_json_info as $option_value => $data) {
-      $headers[$option_value] = $data['display_label'] . "<div class='option-description'>{$data['description']}</div>";
+      $headers[$option_value] = "<span title='{$data['description']}'>" . $data['display_label'] . "<br /><span class='option-description'>{$data['description']}</span></span>";
     }
     $this->headerOptions = $headers;
   }
