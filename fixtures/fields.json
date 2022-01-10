@@ -23,12 +23,6 @@
     "description": "The node ID of an existing object. This is useful for existing objects that have the same title.",
     "display_label": "Member of Existing Entity ID"
   },
-  "resource_type": {
-    "field": "field_resource_type",
-    "example": "Collection",
-    "description": "The resource type to assign the node.",
-    "display_label": "Resource type"
-  },
   "table_of_contents": {
     "field": "field_table_of_contents",
     "example": "TOC",

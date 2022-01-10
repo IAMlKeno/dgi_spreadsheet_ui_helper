@@ -28,6 +28,10 @@ class GenerateOptions extends FormBase {
       'display_label' => 'Model',
       'example' => 'Audio',
     ],
+    'resource_type' => [
+      'display_label' => 'Resource Type',
+      'example' => 'Collection',
+    ],
   ];
 
   /**
@@ -44,6 +48,11 @@ class GenerateOptions extends FormBase {
    */
   protected $examples;
 
+  /**
+   * An associative array of fields parsed from the included fields.json.
+   *
+   * @var array
+   */
   private $field_json_info;
 
   /**
@@ -112,8 +121,6 @@ class GenerateOptions extends FormBase {
       'drupalSettings' => [],
     ];
 
-    $this->prepareExamples();
-
     return $form;
   }
 
@@ -124,6 +131,7 @@ class GenerateOptions extends FormBase {
     $file = NULL;
     $values = $form_state->getValues();
     $file_label = preg_replace('/\W+/', '_', $values['label']);
+
     try {
       // Output into a csv file
       $filename = "$file_label.csv";
@@ -131,39 +139,35 @@ class GenerateOptions extends FormBase {
       $file_path = "$public/$filename";
 
       $keys = array_keys(self::MANDATORY_HEADERS);
-      $keys = array_merge($keys, array_keys($values['headers']));
-      $headers = implode(',', $keys);
+      $filtered_opts = array_filter($values['headers'], function ($value) {
+        return $value;
+      });
+      $headers = array_merge($keys, array_keys($filtered_opts));
 
-      dsm($values['headers']);
-
-      // if ($file = fopen("{$file_path}", 'w+')) {
-      //   $length = fputcsv($file, $headers);
-      //   if ($length) {
-      //     // If include_examples is checked, prepare the values and write it.
+      if ($file = fopen("{$file_path}", 'w+')) {
+        $length = fputcsv($file, $headers);
+        if ($length) {
+          // If include_examples is checked, prepare the values and write it.
           if ($values['include_examples']) {
             $this->prepareExamples();
-          //   $example_length = fputcsv($file, $this->examples);
+            fputcsv($file, $this->examples);
           }
-          //
-          // $file_data = stream_get_meta_data($file);
-          // // dsm($file_data, 'csv puts worked - file data');
-          //
-          // $uri = $file_data['uri'];
-          // $headers = [
-          //   'Content-Type'        => 'text/csv',
-          //   'Content-Disposition' => 'attachment;filename="' . $filename . '"',
-          // ];
-          // $form_state->setResponse(new \Symfony\Component\HttpFoundation\BinaryFileResponse($uri, 200, $headers, true));
-        // }
-      // }
-      // dsm($headers, 'headers');
-      // dsm($this->examples, 'examples');
+
+          $file_data = stream_get_meta_data($file);
+          $uri = $file_data['uri'];
+          $headers = [
+            'Content-Type'        => 'text/csv',
+            'Content-Disposition' => 'attachment;filename="' . $filename . '"',
+          ];
+          $form_state->setResponse(new \Symfony\Component\HttpFoundation\BinaryFileResponse($uri, 200, $headers, true));
+        }
+      }
     }
     catch (\Exception $e) {
       \Drupal::messenger()->addMessage($e->getMessage());
     }
     finally {
-      // fclose($file);
+      fclose($file);
     }
 
   }
@@ -177,17 +181,6 @@ class GenerateOptions extends FormBase {
       $headers[$option_value] = $data['display_label'] . "<div class='option-description'>{$data['description']}</div>";
     }
     $this->headerOptions = $headers;
-    // $path = drupal_get_path('module', 'dgi_spreadsheet_ui_helper') . "/fixtures/fields.json";
-    // if ($content = file_get_contents($path)) {
-    //   $field_options = json_decode($content, TRUE);
-    //   if (!is_null($field_options) && $field_options) {
-    //     $headers = [];
-    //     foreach($field_options as $option_value => $data) {
-    //       $headers[$option_value] = $data['display_label'] . "<div class='option-description'>{$data['description']}</div>";
-    //     }
-    //     $this->headerOptions = $headers;
-    //   }
-    // }
   }
 
   /**
@@ -203,31 +196,29 @@ class GenerateOptions extends FormBase {
     foreach($this->field_json_info as $option_value => $data) {
       $examples[$option_value] = $data['example'];
     }
-
     $this->examples = $examples;
     $success = TRUE;
-    // $path = drupal_get_path('module', 'dgi_spreadsheet_ui_helper') . "/fixtures/fields.json";
-    // $success = FALSE;
-    //
-    // if ($contents = file_get_contents($path)) {
-    //   $field_options = json_decode($contents, TRUE);
-    //   if (!is_null($field_options) && $field_options) {
-    //     $examples = [];
-    //     // Prep mandatory fields.
-    //     foreach (self::MANDATORY_HEADERS as $key => $value) {
-    //       $examples[$key] = $value['example'];
-    //     }
-    //     foreach($field_options as $option_value => $data) {
-    //       $examples[$option_value] = $data['example'];
-    //     }
-    //     $this->examples = $examples;
-    //     $success = TRUE;
-    //   }
-    // }
 
     if (!$success) {
       \Drupal::messenger()->addMessage('Failed to prepare examples.');
     }
   }
 
+  /**
+   * {@inheritdoc}
+   */
+  public function validateForm(array &$form, FormStateInterface $form_state) {
+    $headers = $form_state->getValue('headers');
+    // Verify that at least on member of field is selected.
+    if (
+      !$headers['member_of'] &&
+      !$headers['member_of_existing_entity'] &&
+      !$headers['member_of_existing_entity_id']
+    ) {
+      $form_state->setErrorByName(
+        'headers',
+        $this->t('At least one of the member of fields must be selected.')
+      );
+    }
+  }
 }
