@@ -1,0 +1,8 @@
+name: Discovery Garden Spreadsheet UI Helper
+type: module
+description: This module attempts to make user interface improvement on Discovery Garden&#039;s Spreadsheet ingest module.
+package: DGI Helper
+core: 8.x
+core_version_requirement: ^8 || ^9
+dependencies:
+  - islandora_spreadsheet_ingest

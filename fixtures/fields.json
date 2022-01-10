@@ -1,0 +1,98 @@
+{
+  "weight": {
+    "field": "field_weight",
+    "example": "1",
+    "description": "A number to assign to the node as the Drupal weight. Typically used to establish the order/sequence of objects.",
+    "display_label": "Weight"
+  },
+  "member_of": {
+    "field": "field_member_of",
+    "example": "1",
+    "description": "The ID of another object within the speadsheet.",
+    "display_label": "Member of"
+  },
+  "member_of_existing_entity": {
+    "field": "field_member_of",
+    "example": "Example Existing Parent Object",
+    "description": "The title of an existing object.",
+    "display_label": "Member of Existing Entity"
+  },
+  "member_of_existing_entity_id": {
+    "field": "field_member_of",
+    "example": "1234",
+    "description": "The node ID of an existing object. This is useful for existing objects that have the same title.",
+    "display_label": "Member of Existing Entity ID"
+  },
+  "resource_type": {
+    "field": "field_resource_type",
+    "example": "Collection",
+    "description": "The resource type to assign the node.",
+    "display_label": "Resource type"
+  },
+  "table_of_contents": {
+    "field": "field_table_of_contents",
+    "example": "TOC",
+    "description": "TOC",
+    "display_label": "Table of Contents"
+  },
+  "description": {
+    "field": "field_description",
+    "example": "Abstract description of an object.",
+    "description": "Description",
+    "display_label": "Description"
+  },
+  "target_audience": {
+    "field": "field_target_audience",
+    "example": "Audience",
+    "description": "The target Audience",
+    "display_label": "Target Audience"
+  },
+  "local_identifier": {
+    "field": "field_local_identifier:",
+    "example": "islandora:001",
+    "description": "An identifier",
+    "display_label": "Local Identifier"
+  },
+  "purl": {
+    "field": "field_purl",
+    "example": "purl",
+    "description": "field_purl",
+    "display_label": "PURL"
+  },
+  "doi": {
+    "field": "field_doi",
+    "example": "DOI001",
+    "description": "DOI",
+    "display_label": "DOI"
+  },
+  "handle": {
+    "field": "field_handle",
+    "example": "hdl://001",
+    "description": "Handle",
+    "display_label": "Handle"
+  },
+  "ark": {
+    "field": "field_ark",
+    "example": "ARK001",
+    "description": "ARK",
+    "display_label": "ARK"
+  },
+  "isbn": {
+    "field": "field_isbn",
+    "example": "ISBN002",
+    "description": "ISBN",
+    "display_label": "ISBN"
+  },
+  "oclc_number": {
+    "field": "field_oclc_number",
+    "example": "OCLC001",
+    "description": "OCLC Number",
+    "display_label": "OCLC Number"
+  },
+  "persons": {
+    "field": "field_linked_agent",
+    "example": "John Doe|relator:cre;Jane Doe|relator:aut",
+    "description": "Persons associated.",
+    "display_label": "Persons"
+  }
+}

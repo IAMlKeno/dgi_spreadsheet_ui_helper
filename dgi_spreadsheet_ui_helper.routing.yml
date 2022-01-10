@@ -1,0 +1,8 @@
+---
+entity.isi_request.generate_template:
+  path: '/admin/content/islandora_spreadsheet_ingest/generate_template'
+  defaults:
+    _title: 'Generate Spreadsheet Template'
+    _form: '\Drupal\dgi_spreadsheet_ui_helper\Form\GenerateOptions'
+  requirements:
+    _entity_create_access: 'isi_request'

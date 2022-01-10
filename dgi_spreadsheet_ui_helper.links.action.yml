@@ -1,0 +1,6 @@
+---
+dgi_spreadsheet_ui_helper.generate_template:
+  route_name: entity.isi_request.generate_template
+  title: 'Generate CSV Template'
+  appears_on:
+    - entity.isi_request.list
