@@ -5,6 +5,6 @@
   "license": "GPL-3.0-only",
   "require": {
       "discoverygarden/islandora_spreadsheet_ingest": "^3",
-      "discoverygarden/dgi_standard_spreadsheet": "^1.6"
+      "discoverygarden/dgi_standard_spreadsheet_ingest": "^1.6"
     }
 }
