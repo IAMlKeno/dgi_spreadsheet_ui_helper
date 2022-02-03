@@ -1,0 +1,9 @@
+{
+  "name": "discoverygarden/dgi_spreadsheet_ui_helper",
+  "description": "A module to provide ease of use with the DGI Islandora Spreadsheet Ingest module",
+  "type": "drupal-module",
+  "license": "GPL-3.0-only",
+  "require": {
+      "discoverygarden/islandora_spreadsheet_ingest": "^2"
+    }
+}
