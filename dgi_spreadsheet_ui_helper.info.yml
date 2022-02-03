@@ -1,4 +1,4 @@
-name: Discovery Garden Spreadsheet UI Helper
+name: "discoverygarden/dgi_spreadsheet_ui_helper"
 type: module
 description: This module attempts to make user interface improvement on Discovery Garden&#039;s Spreadsheet ingest module.
 package: DGI Helper
